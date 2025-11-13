@@ -8,6 +8,7 @@ import {MaxUtilitySelection, SelectionStrategy} from "./SelectionStrategy";
 import {NullSink, OrchestrationSink, OrchestrationStopReason} from "./OrchestrationSink";
 import {Runtime} from "../Utils/Runtime";
 import {Proposal} from "../Considerations/Proposal";
+import {STOP_ORCHESTRATION_EVENT, StopOrchestrationEvent} from "./Events/StopOrchestrationEvent";
 
 export class UtilityAiOrchestrator implements Orchestrator {
 
@@ -100,10 +101,11 @@ export class UtilityAiOrchestrator implements Orchestrator {
     }
 
     private TryStopFromSensors(rt: Runtime, sink: OrchestrationSink): boolean {
-        /**
-         * TODO IMPLEMENET EVENT
-         */
-        return false;
+        const stopEvt = rt.bus.getOrDefault<StopOrchestrationEvent>(STOP_ORCHESTRATION_EVENT);
+        if (!stopEvt) return false;
+
+        sink.onStopped(rt, stopEvt.reason);
+        return true;
     }
 
     private ChooseAndMaybeStopAtZero(rt: Runtime, scored: Array<{

@@ -1,14 +1,19 @@
 {
   "name": "utility-ai",
   "version": "1.0.0",
-  "description": "",
+  "description": "A small utility AI framework",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "clean": "rimraf dist",
+    "dev": "ts-node src/index.ts"
   },
   "dependencies": {},
   "devDependencies": {
-    "typescript": "^5.5.3"
-  },
-  "private": true
+    "typescript": "^5.5.3",
+    "ts-node": "^10.9.2",
+    "rimraf": "^6.0.0"
+  }
 }

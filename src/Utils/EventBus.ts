@@ -22,6 +22,7 @@ export class EventBus {
     getOrDefault<T>(key: Type<T> | symbol): T | undefined {
         return this.latest.get(key) as T | undefined;
     }
+
 }
 
 /** Helper to create a unique key when you don’t have a class type. */
