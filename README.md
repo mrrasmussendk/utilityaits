@@ -1,10 +1,10 @@
-# Utility AI
+# Utility Cortex
 
-A TypeScript implementation of a Utility AI system for intelligent decision-making and action selection.
+A TypeScript implementation of a Utility Cortex (Utility AI) system for intelligent decision-making and action selection.
 
 ## Overview
 
-Utility AI is a decision-making framework that scores potential actions based on multiple considerations, allowing agents to make contextually-aware choices. This library provides a flexible orchestration system that evaluates proposals through sensors, eligibility checks, and utility calculations.
+Utility Cortex is a decision-making framework that scores potential actions based on multiple considerations, allowing agents to make contextually-aware choices. This library provides a flexible orchestration system that evaluates proposals through sensors, eligibility checks, and utility calculations.
 
 ## Core Concepts
 
@@ -34,7 +34,7 @@ Gather environmental data before each decision tick. Implement the `Sensor` inte
 ## Installation
 
 ```bash
-npm install
+npm install utility-cortex
 ```
 
 ## Building
@@ -46,8 +46,7 @@ npm run build
 ## Usage Example
 
 ```typescript
-import { UtilityAiOrchestrator } from './src/Orchestration/UtilityAiOrchestrator';
-import { UserIntent } from './src/Utils/UserIntent';
+import { UtilityAiOrchestrator, UserIntent } from 'utility-cortex';
 
 const orchestrator = new UtilityAiOrchestrator()
   .AddSensor(mySensor)
@@ -96,7 +95,7 @@ Bundled sinks:
 The example also includes a simple ConsoleSink (example/consoleSink.ts) that prints decisions per tick. You can combine sinks:
 
 ```ts
-import { CompositeSink, RecordingSink } from './src/Orchestration/OrchestrationSink';
+import { CompositeSink, RecordingSink } from 'utility-cortex';
 import { ConsoleSink } from './example/consoleSink';
 
 const sink = new CompositeSink(new ConsoleSink(), new RecordingSink());
@@ -139,4 +138,4 @@ src/
 
 ## License
 
-Open
+MIT

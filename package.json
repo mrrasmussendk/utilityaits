@@ -1,16 +1,46 @@
 {
-  "name": "utility-ai",
+  "name": "utility-cortex",
   "version": "1.0.0",
-  "description": "A small utility AI framework",
+  "description": "Utility Cortex – a scoring-first orchestration layer for LLM agents",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
     "clean": "rimraf dist",
     "dev": "ts-node src/index.ts",
-    "example": "ts-node example/run.ts"
+    "example": "ts-node example/run.ts",
+    "prepublishOnly": "npm run clean && npm run build"
   },
+  "keywords": [
+    "utility-cortex",
+    "utility-ai",
+    "ai",
+    "decision-making",
+    "orchestration",
+    "typescript"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrrasmussendk/utilityaits.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mrrasmussendk/utilityaits/issues"
+  },
+  "homepage": "https://github.com/mrrasmussendk/utilityaits#readme",
+  "author": "",
   "dependencies": {},
   "devDependencies": {
     "typescript": "^5.5.3",
