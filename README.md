@@ -59,6 +59,61 @@ const abortSignal = new AbortController().signal;
 await orchestrator.runAsync(intent, 10, abortSignal);
 ```
 
+## Examples
+
+A complete, runnable example demonstrating sensors, capability modules, proposals with considerations and curve shaping, orchestration, and telemetry sinks is available under the `example/` folder.
+
+How to run it:
+
+```bash
+npm run example
+```
+
+What it shows:
+- A DynamicWorldSensor that publishes world state (hunger, energy, money, time) and can request stop when a goal is reached.
+- Actions (Eat, Work, Sleep) that asynchronously mutate the world.
+- A Capability module that proposes multiple actions with considerations shaped by curves (sigmoid, inverse, exponential power), plus eligibility gates.
+- Orchestration via UtilityAiOrchestrator, including scoring, selection, and acting per tick.
+- Telemetry using a ConsoleSink (prints decisions each tick) and RecordingSink.
+
+Open `example/run.ts` to see the wiring. The example runs several ticks and stops when the goal (target money) is reached or when max ticks elapse, showcasing both the complexity and strength of the framework.
+
+## Telemetry & Sinks
+
+The orchestrator emits lifecycle events to an OrchestrationSink implementation so you can log or collect metrics without affecting control flow.
+
+- onTickStart(rt): called at the beginning of each tick
+- onScored(rt, scored): all candidates with their utilities for the tick
+- onChosen(rt, chosen, utility): the selected proposal and its utility
+- onActed(rt, chosen): after the chosen proposal's action finishes
+- onStopped(rt, reason): called once when orchestration stops
+
+Bundled sinks:
+- NullSink: no-op sink you can use when you don’t need output
+- CompositeSink: fan-out that forwards events to multiple sinks
+- RecordingSink: in-memory recorder for tests, debugging, or reports
+
+The example also includes a simple ConsoleSink (example/consoleSink.ts) that prints decisions per tick. You can combine sinks:
+
+```ts
+import { CompositeSink, RecordingSink } from './src/Orchestration/OrchestrationSink';
+import { ConsoleSink } from './example/consoleSink';
+
+const sink = new CompositeSink(new ConsoleSink(), new RecordingSink());
+```
+
+## Stop Reasons
+
+When execution ends, onStopped is called with an OrchestrationStopReason explaining why the orchestrator stopped:
+
+- NoProposals: no capability module produced any proposal for the current tick
+- NoEligibleProposals: proposals existed but none passed eligibility gates
+- ZeroUtility: the chosen proposal had 0 utility and stop-at-zero was enabled
+- MaxTicksReached: configured maximum number of ticks was executed
+- Cancelled: the provided AbortSignal was aborted
+- GoalAchieved: a sensor indicated the goal was reached
+- SensorRequestedStop: a sensor explicitly requested to stop
+
 ## Architecture
 
 ```

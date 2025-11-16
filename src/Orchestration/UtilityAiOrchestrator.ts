@@ -72,7 +72,10 @@ export class UtilityAiOrchestrator implements Orchestrator {
     private GatherProposalsOrStop(rt: Runtime, sink: OrchestrationSink): Array<Proposal> | null {
         let all: Array<Proposal> = []
         for (let i = 0; i < this.modules.length; i++) {
-            all.concat(this.modules[i].propose(rt));
+            const proposals = this.modules[i].propose(rt);
+            if (proposals && proposals.length > 0) {
+                all.push(...proposals);
+            }
         }
         if (all.length == 0) {
             sink.onStopped(rt, OrchestrationStopReason.NoProposals);
