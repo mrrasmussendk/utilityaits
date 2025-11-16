@@ -135,6 +135,7 @@ src/
 - **Event Bus**: Built-in event system for coordination
 - **Stop Conditions**: Configurable stopping (max ticks, zero utility, no proposals)
 - **Selection Strategies**: Pluggable selection algorithms (default: max utility)
+- **Zero runtime dependencies**: 0 production dependencies for a lightweight, portable install
 
 ## License
 
